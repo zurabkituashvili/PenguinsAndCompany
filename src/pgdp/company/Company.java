@@ -1,4 +1,5 @@
 package pgdp.company;
+
 import pgdp.tree.Tree;
 
 import java.util.HashMap;
@@ -25,21 +26,31 @@ public class Company {
     }
 
     public void addEmployee(Employee newEmployee) {
-        // TO-DO
+        if (employees.get(newEmployee.getBoss().getID()) != null) {
+            Integer newId = availableIDs.poll();
+            if (newId == null) newId = availableID++;
+            newEmployee.setID(newId);
+            employeesTree.insert(newId, newEmployee.getBoss().getID());
+            employees.put(newId, newEmployee);
+        }
     }
 
     public void fireEmployee(int ID) {
-       // TO-DO
+        if (ID != CEO.getID()) {
+            employeesTree.remove(ID);
+            availableIDs.add(ID);
+            employees.remove(ID);
+        }
     }
 
     public Employee findCommonBoss(Employee e1, Employee e2) {
-        // TO-DO
-        return null;
+        int ID = employeesTree.LCA(e1.getID(), e2.getID());
+        Employee commonEmployee = employees.get(ID);
+        return commonEmployee;
     }
 
     public Employee findByID(int ID) {
-       // TO-DO
-        return null;
+        return employees.get(ID);
     }
 
 }

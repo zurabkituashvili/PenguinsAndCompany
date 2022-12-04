@@ -28,7 +28,7 @@ public class Employee {
         return "Employee{" +
                 "name='" + name + '\'' +
                 ", ID=" + ID +
-                ", bossID=" + ID +
+                ", bossID=" + (this.boss == null ? "null" : this.boss.getID()) +
                 '}';
     }
 }

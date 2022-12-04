@@ -11,7 +11,10 @@ public class PenguinDateGenerator {
     }
 
     public boolean canGoOnADate(Penguin p1, Penguin p2) {
-       // TO-DO
+        int distance = tree.distanceBetweenNodes(p1, p2);
+        if (distance >= p1.getAllowance() && distance >= p2.getAllowance()) {
+            return true;
+        }
         return false;
     }
 

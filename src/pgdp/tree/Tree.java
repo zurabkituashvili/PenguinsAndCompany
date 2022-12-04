@@ -1,8 +1,5 @@
 package pgdp.tree;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class Tree<T> {
 
     private Node<T> root;
@@ -12,21 +9,43 @@ public class Tree<T> {
     }
 
     public void insert(T value, T parent) {
-       // TO-DO
+       Node<T> parentNode = root.findNode(parent);
+       parentNode.insert(new Node<>(value));
     }
 
     public void remove(T value) {
-        // TO-DO
+        Node<T> node = root.findNode(value);
+        node.remove();
     }
 
     public T LCA(T a, T b) {
-        // TO-DO
+        if (a == b) return a;
+
+        if (root.findNode(a).findNode(b) != null) {
+            return a;
+        }
+        else if (root.findNode(b).findNode(a) != null) {
+            return b;
+        }
+        else {
+            Node<T> tmp = root.findNode(a);
+            while (tmp != root) {
+                tmp = tmp.getParent();
+                if (tmp.findNode(b) != null) return tmp.getData();
+            }
+        }
         return null;
     }
 
     public int distanceBetweenNodes(T a, T b) {
-        // TO-DO
-        return 0;
+        int aDistance = 0;
+        int bDistance = 0;
+        Node<T> commonNode = root.findNode(LCA(a, b));
+        Node<T> aNode = root.findNode(a);
+        Node<T> bNode = root.findNode(b);
+        aDistance = aNode.findParentDistance(commonNode);
+        bDistance = bNode.findParentDistance(commonNode);
+        return aDistance + bDistance;
     }
 
     public Node<T> getRoot() {
@@ -34,12 +53,11 @@ public class Tree<T> {
     }
 
     public boolean containsKey(T key) {
-        // TO-DO
-        return false;
+        return root.findNode(key) != null;
     }
 
     public void traversal() {
-        // TO-DO
+        root.traversal(root);
     }
 
 }
